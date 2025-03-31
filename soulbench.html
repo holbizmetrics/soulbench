@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Development Hub</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #5a7af0;
+        }
+        
+        .main-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .categories {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .content-area {
+            flex: 3;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .categories h2, .content-area h2 {
+            margin-bottom: 15px;
+            color: #444;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 10px;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-item {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .category-item:hover {
+            background-color: #f1f5fe;
+        }
+        
+        .category-item.active {
+            background-color: #e4eaff;
+            font-weight: bold;
+        }
+        
+        .add-category {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .add-category input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .resource-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .resource-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .resource-card h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .resource-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .resource-card a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+        
+        .resource-source {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+        
+        .add-resource {
+            margin-top: 15px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .add-resource h3 {
+            margin-bottom: 10px;
+            color: #444;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .dropzone {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+        
+        .dropzone.active {
+            border-color: #6e8efb;
+            background-color: #f1f5fe;
+        }
+        
+        .dropzone p {
+            color: #888;
+        }
+        
+        .edit-buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        
+        .edit-button, .delete-button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        .delete-button {
+            background-color: #ff6b6b;
+        }
+        
+        .delete-button:hover {
+            background-color: #ff5252;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .resource-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Personal Development Hub</h1>
+        <p>Your personalized collection of self-improvement resources</p>
+    </header>
+    
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search resources...">
+        <button id="search-button">Search</button>
+    </div>
+    
+    <div class="main-container">
+        <div class="categories">
+            <h2>Categories</h2>
+            <ul class="category-list" id="category-list">
+                <!-- Categories will be loaded here -->
+            </ul>
+            
+            <div class="add-category">
+                <input type="text" id="new-category" placeholder="New category name">
+                <button id="add-category-btn">Add</button>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <h2 id="current-category">All Resources</h2>
+            
+            <div class="dropzone" id="dropzone">
+                <p>Drag and drop files or links here</p>
+            </div>
+            
+            <div class="add-resource">
+                <h3>Add New Resource</h3>
+                <div class="form-group">
+                    <label for="resource-title">Title</label>
+                    <input type="text" id="resource-title" placeholder="Enter resource title">
+                </div>
+                <div class="form-group">
+                    <label for="resource-description">Description</label>
+                    <textarea id="resource-description" placeholder="Enter description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="resource-url">URL or File Path</label>
+                    <input type="text" id="resource-url" placeholder="Enter URL or local file path">
+                </div>
+                <div class="button-group">
+                    <button id="add-resource-btn">Add Resource</button>
+                    <button id="clear-form-btn">Clear</button>
+                </div>
+            </div>
+            
+            <div class="resource-list" id="resource-list">
+                <!-- Resources will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Store data in localStorage
+        let categories = JSON.parse(localStorage.getItem('pdh-categories')) || [
+            'Meditation',
+            'EMDR',
+            'Brainspotting',
+            'Self-brainspotting',
+            'Vagus Nerve Exercises',
+            'Havening Technique',
+            'Weight Loss',
+            'Anxiety Relief',
+            'NLP Techniques',
+            'Motivational'
+        ];
+        
+        let resources = JSON.parse(localStorage.getItem('pdh-resources')) || [
+            {
+                id: 1,
+                title: 'Guided Meditation for Beginners',
+                description: 'A 10-minute guided meditation for beginners to practice mindfulness.',
+                url: 'https://www.youtube.com/watch?v=inpok4MKVLM',
+                category: 'Meditation',
+                source: 'online'
+            },
+            {
+                id: 2,
+                title: 'Introduction to EMDR Therapy',
+                description: 'Learn the basics of Eye Movement Desensitization and Reprocessing therapy.',
+                url: 'https://www.youtube.com/watch?v=Pkfln-ZtWeI',
+                category: 'EMDR',
+                source: 'online'
+            },
+            {
+                id: 3,
+                title: 'Self-Brainspotting Exercise',
+                description: 'A guide to practicing brainspotting techniques at home.',
+                url: 'https://www.youtube.com/watch?v=M4JAKgx4fzA',
+                category: 'Self-brainspotting',
+                source: 'online'
+            },
+            {
+                id: 4,
+                title: 'How to Calm Your Nervous System in 30 Seconds - Dr. Weil\'s Technique',
+                description: 'A quick 30-second breathing technique by Dr. Weil to help calm your nervous system and reduce stress.',
+                url: 'https://www.youtube.com/watch?v=L1HCG3BGK8I',
+                category: 'Vagus Nerve Exercises',
+                source: 'online'
+            },
+            {
+                id: 5,
+                title: 'Vagus Nerve Hack to Feel Better in 30 Seconds',
+                description: 'Quick exercise to activate your vagus nerve for immediate stress relief and calm.',
+                url: 'https://www.youtube.com/watch?v=GB-sesklJTo',
+                category: 'Vagus Nerve Exercises',
+                source: 'online'
+            },
+            {
+                id: 6,
+                title: 'Simple Yogic Breathing Exercise for Sleep',
+                description: 'A breathing exercise from the Himalayan tradition to help you fall asleep faster.',
+                url: 'https://www.youtube.com/watch?v=5I78NyORUVo',
+                category: 'Meditation',
+                source: 'online'
+            },
+            {
+                id: 7,
+                title: 'Paul McKenna - Havening Technique for Anxiety Relief',
+                description: 'Learn the Havening Technique to quickly reduce anxiety and stress.',
+                url: 'https://www.youtube.com/watch?v=cHGBM9Vf0Ic',
+                category: 'Havening Technique',
+                source: 'online'
+            },
+            {
+                id: 8,
+                title: 'Paul McKenna - Weight Loss Hypnosis',
+                description: 'Hypnosis session to help change your relationship with food and assist with weight loss.',
+                url: 'https://www.youtube.com/watch?v=fEXgq5K2MK0',
+                category: 'Weight Loss',
+                source: 'online'
+            },
+            {
+                id: 9,
+                title: 'Paul McKenna - Anxiety and Worry Release',
+                description: 'Guided technique to help reduce anxiety and excessive worrying.',
+                url: 'https://www.youtube.com/watch?v=TgFPEQzGzTw',
+                category: 'Anxiety Relief',
+                source: 'online'
+            },
+            {
+                id: 10,
+                title: 'Tansy Forrest - Trauma Release Meditation',
+                description: 'Guided meditation for healing trauma and releasing trapped emotions.',
+                url: 'https://www.youtube.com/watch?v=CdKtHxJldqU',
+                category: 'Meditation',
+                source: 'online'
+            },
+            {
+                id: 11,
+                title: 'Tansy Forrest - Grounding Technique for Anxiety',
+                description: 'Simple grounding exercise to help with anxiety and panic attacks.',
+                url: 'https://www.youtube.com/watch?v=b5Hw-6HzLaM',
+                category: 'Anxiety Relief',
+                source: 'online'
+            },
+            {
+                id: 12,
+                title: 'Teal Swan - Meditation for Inner Peace',
+                description: 'Guided meditation to help find inner peace and calm.',
+                url: 'https://www.youtube.com/watch?v=mgzhKW08bMQ',
+                category: 'Meditation',
+                source: 'online'
+            },
+            {
+                id: 13,
+                title: 'Teal Swan - Healing Meditation for Emotional Pain',
+                description: 'Guided meditation focused on healing emotional wounds and trauma.',
+                url: 'https://www.youtube.com/watch?v=TcMWKDn0GKE',
+                category: 'Meditation',
+                source: 'online'
+            },
+            {
+                id: 14,
+                title: 'Richard Bandler - NLP Fast Phobia Cure',
+                description: 'NLP technique to quickly reduce or eliminate phobias.',
+                url: 'https://www.youtube.com/watch?v=uxYzx7V9I6k',
+                category: 'NLP Techniques',
+                source: 'online'
+            },
+            {
+                id: 15,
+                title: 'David Snyder - NLP Anchoring Technique',
+                description: 'Learn how to anchor positive emotional states using NLP.',
+                url: 'https://www.youtube.com/watch?v=YYOgI5jtLYs',
+                category: 'NLP Techniques',
+                source: 'online'
+            },
+            {
+                id: 16,
+                title: 'Self-administered EMDR for Anxiety',
+                description: 'Guide to performing EMDR therapy on yourself to reduce anxiety.',
+                url: 'https://www.youtube.com/watch?v=XrJA-rN2Tp4',
+                category: 'EMDR',
+                source: 'online'
+            },
+            {
+                id: 17,
+                title: 'Self-administered EMDR for Trauma Relief',
+                description: 'Step-by-step instructions for using EMDR techniques at home for trauma healing.',
+                url: 'https://www.youtube.com/watch?v=lsQbzfW9txc',
+                category: 'EMDR',
+                source: 'online'
+            },
+            {
+                id: 18,
+                title: 'Tony Robbins - Morning Priming Exercise',
+                description: 'Tony Robbins\' 10-minute morning routine for energy and positive mindset.',
+                url: 'https://www.youtube.com/watch?v=DQbYBxF9XaE',
+                category: 'Motivational',
+                source: 'online'
+            },
+            {
+                id: 19,
+                title: 'Tony Robbins - Emotional Flood Exercise',
+                description: 'Exercise to release negative emotions and create a positive emotional state.',
+                url: 'https://www.youtube.com/watch?v=DQbYBxF9XaE',
+                category: 'Motivational',
+                source: 'online'
+            }
+        ];
+        
+        let currentCategory = 'All';
+        let nextId = Math.max(...resources.map(r => r.id), 0) + 1;
+        
+        // DOM Elements
+        const categoryList = document.getElementById('category-list');
+        const resourceList = document.getElementById('resource-list');
+        const currentCategoryTitle = document.getElementById('current-category');
+        const newCategoryInput = document.getElementById('new-category');
+        const addCategoryBtn = document.getElementById('add-category-btn');
+        const resourceTitleInput = document.getElementById('resource-title');
+        const resourceDescriptionInput = document.getElementById('resource-description');
+        const resourceUrlInput = document.getElementById('resource-url');
+        const addResourceBtn = document.getElementById('add-resource-btn');
+        const clearFormBtn = document.getElementById('clear-form-btn');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const dropzone = document.getElementById('dropzone');
+        
+        // Initialize the application
+        function init() {
+            renderCategories();
+            renderResources();
+            setupEventListeners();
+        }
+        
+        // Render category list
+        function renderCategories() {
+            categoryList.innerHTML = `
+                <li class="category-item ${currentCategory === 'All' ? 'active' : ''}" data-category="All">
+                    All Resources
+                </li>
+            `;
+            
+            categories.forEach(category => {
+                categoryList.innerHTML += `
+                    <li class="category-item ${currentCategory === category ? 'active' : ''}" data-category="${category}">
+                        ${category}
+                        <span class="edit-buttons">
+                            <button class="delete-button" data-category="${category}">×</button>
+                        </span>
+                    </li>
+                `;
+            });
+        }
+        
+        // Render resource list
+        function renderResources(searchQuery = '') {
+            resourceList.innerHTML = '';
+            
+            let filteredResources = resources;
+            
+            // Filter by category
+            if (currentCategory !== 'All') {
+                filteredResources = filteredResources.filter(resource => resource.category === currentCategory);
+            }
+            
+            // Filter by search query
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredResources = filteredResources.filter(resource => 
+                    resource.title.toLowerCase().includes(query) || 
+                    resource.description.toLowerCase().includes(query)
+                );
+            }
+            
+            if (filteredResources.length === 0) {
+                resourceList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No resources found. Add a new resource or try a different search.</p>';
+                return;
+            }
+            
+            filteredResources.forEach(resource => {
+                const isLocalFile = resource.url.startsWith('file://') || !resource.url.startsWith('http');
+                const sourceType = isLocalFile ? 'Local File' : 'Online Resource';
+                
+                resourceList.innerHTML += `
+                    <div class="resource-card" data-id="${resource.id}">
+                        <h3>${resource.title}</h3>
+                        <p>${resource.description}</p>
+                        <a href="${resource.url}" target="_blank">Open Resource</a>
+                        <div class="resource-source">${sourceType} • Category: ${resource.category}</div>
+                        <div class="edit-buttons">
+                            <button class="edit-button" data-id="${resource.id}">Edit</button>
+                            <button class="delete-button" data-id="${resource.id}">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category selection
+            categoryList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('category-item')) {
+                    currentCategory = e.target.dataset.category;
+                    currentCategoryTitle.textContent = currentCategory;
+                    document.querySelectorAll('.category-item').forEach(item => item.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderResources();
+                }
+                
+                // Delete category
+                if (e.target.classList.contains('delete-button') && e.target.dataset.category) {
+                    const categoryToDelete = e.target.dataset.category;
+                    if (confirm(`Are you sure you want to delete the category "${categoryToDelete}"?`)) {
+                        categories = categories.filter(cat => cat !== categoryToDelete);
+                        localStorage.setItem('pdh-categories', JSON.stringify(categories));
+                        
+                        // Reassign resources from this category to "Uncategorized"
+                        resources.forEach(resource => {
+                            if (resource.category === categoryToDelete) {
+                                resource.category = 'Uncategorized';
+                            }
+                        });
+                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
+                        
+                        // Add "Uncategorized" category if it doesn't exist
+                        if (!categories.includes('Uncategorized') && resources.some(r => r.category === 'Uncategorized')) {
+                            categories.push('Uncategorized');
+                            localStorage.setItem('pdh-categories', JSON.stringify(categories));
+                        }
+                        
+                        // Reset current category if deleted
+                        if (currentCategory === categoryToDelete) {
+                            currentCategory = 'All';
+                            currentCategoryTitle.textContent = 'All Resources';
+                        }
+                        
+                        renderCategories();
+                        renderResources();
+                    }
+                }
+            });
+            
+            // Add new category
+            addCategoryBtn.addEventListener('click', () => {
+                const newCategory = newCategoryInput.value.trim();
+                if (newCategory && !categories.includes(newCategory)) {
+                    categories.push(newCategory);
+                    localStorage.setItem('pdh-categories', JSON.stringify(categories));
+                    newCategoryInput.value = '';
+                    renderCategories();
+                    
+                    // Switch to new category
+                    currentCategory = newCategory;
+                    currentCategoryTitle.textContent = currentCategory;
+                    renderResources();
+                }
+            });
+            
+            // Add new resource
+            addResourceBtn.addEventListener('click', () => {
+                const title = resourceTitleInput.value.trim();
+                const description = resourceDescriptionInput.value.trim();
+                let url = resourceUrlInput.value.trim();
+                
+                if (title && url) {
+                    // Add file:// protocol if it looks like a local path and doesn't have a protocol
+                    if (!url.startsWith('http') && !url.startsWith('file://')) {
+                        url = `file://${url}`;
+                    }
+                    
+                    const newResource = {
+                        id: nextId++,
+                        title,
+                        description,
+                        url,
+                        category: currentCategory === 'All' ? 'Uncategorized' : currentCategory,
+                        source: url.startsWith('file://') ? 'local' : 'online'
+                    };
+                    
+                    resources.push(newResource);
+                    localStorage.setItem('pdh-resources', JSON.stringify(resources));
+                    
+                    // Add 'Uncategorized' category if needed
+                    if (newResource.category === 'Uncategorized' && !categories.includes('Uncategorized')) {
+                        categories.push('Uncategorized');
+                        localStorage.setItem('pdh-categories', JSON.stringify(categories));
+                        renderCategories();
+                    }
+                    
+                    // Clear form
+                    resourceTitleInput.value = '';
+                    resourceDescriptionInput.value = '';
+                    resourceUrlInput.value = '';
+                    
+                    renderResources();
+                }
+            });
+            
+            // Clear form
+            clearFormBtn.addEventListener('click', () => {
+                resourceTitleInput.value = '';
+                resourceDescriptionInput.value = '';
+                resourceUrlInput.value = '';
+            });
+            
+            // Search resources
+            searchButton.addEventListener('click', () => {
+                renderResources(searchInput.value.trim());
+            });
+            
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    renderResources(searchInput.value.trim());
+                }
+            });
+            
+            // Resource list actions (edit/delete)
+            resourceList.addEventListener('click', (e) => {
+                // Delete resource
+                if (e.target.classList.contains('delete-button') && e.target.dataset.id) {
+                    const id = parseInt(e.target.dataset.id);
+                    const resourceToDelete = resources.find(r => r.id === id);
+                    
+                    if (confirm(`Are you sure you want to delete "${resourceToDelete.title}"?`)) {
+                        resources = resources.filter(r => r.id !== id);
+                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
+                        renderResources();
+                    }
+                }
+                
+                // Edit resource
+                if (e.target.classList.contains('edit-button') && e.target.dataset.id) {
+                    const id = parseInt(e.target.dataset.id);
+                    const resourceToEdit = resources.find(r => r.id === id);
+                    
+                    // Populate form with resource data
+                    resourceTitleInput.value = resourceToEdit.title;
+                    resourceDescriptionInput.value = resourceToEdit.description;
+                    resourceUrlInput.value = resourceToEdit.url;
+                    
+                    // Change add button to update button
+                    addResourceBtn.textContent = 'Update Resource';
+                    
+                    // New event for update
+                    const updateHandler = () => {
+                        resourceToEdit.title = resourceTitleInput.value.trim();
+                        resourceToEdit.description = resourceDescriptionInput.value.trim();
+                        let url = resourceUrlInput.value.trim();
+                        
+                        if (!url.startsWith('http') && !url.startsWith('file://')) {
+                            url = `file://${url}`;
+                        }
+                        
+                        resourceToEdit.url = url;
+                        resourceToEdit.source = url.startsWith('file://') ? 'local' : 'online';
+                        
+                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
+                        
+                        // Reset form
+                        resourceTitleInput.value = '';
+                        resourceDescriptionInput.value = '';
+                        resourceUrlInput.value = '';
+                        addResourceBtn.textContent = 'Add Resource';
+                        
+                        // Remove this event listener
+                        addResourceBtn.removeEventListener('click', updateHandler);
+                        
+                        // Add back the original event listener
+                        renderResources();
+                    };
+                    
+                    // Remove original click event temporarily
+                    addResourceBtn.removeEventListener('click', addResourceBtn.clickHandler);
+                    
+                    // Add the update handler
+                    addResourceBtn.addEventListener('click', updateHandler);
+                }
+            });
+            
+            // Drag and drop functionality
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('active');
+            });
+            
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('active');
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('active');
+                
+                // Process the dropped items
+                if (e.dataTransfer.items) {
+                    // Use DataTransferItemList interface
+                    for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                        if (e.dataTransfer.items[i].kind === 'file') {
+                            const file = e.dataTransfer.items[i].getAsFile();
+                            addDroppedResource(file);
+                        } else if (e.dataTransfer.items[i].kind === 'string') {
+                            // Handle dropped URLs
+                            e.dataTransfer.items[i].getAsString((url) => {
+                                // Check if it's a valid URL
+                                if (url.startsWith('http')) {
+                                    // Pre-fill the form with the URL
+                                    resourceUrlInput.value = url;
+                                    resourceTitleInput.focus();
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    // Use DataTransfer interface
+                    for (let i = 0; i < e.dataTransfer.files.length; i++) {
+                        addDroppedResource(e.dataTransfer.files[i]);
+                    }
+                }
+            });
+        }
+        
+        // Handle dropped files
+        function addDroppedResource(file) {
+            // Create a file URL
+            const fileUrl = URL.createObjectURL(file);
+            
+            // Pre-fill the form
+            resourceTitleInput.value = file.name;
+            resourceUrlInput.value = `file://${file.path || file.name}`;
+            resourceDescriptionInput.focus();
+        }
+        
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('pdh-categories', JSON.stringify(categories));
+            localStorage.setItem('pdh-resources', JSON.stringify(resources));
+        }
+        
+        // Initialize on page load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,46 +11,160 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
         }
-        
+
+        :root {
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --secondary-text: #666666;
+            --light-text: #888888;
+            --primary-color: #6e8efb;
+            --secondary-color: #a777e3;
+            --border-color: #eeeeee;
+            --hover-color: #f1f5fe;
+            --active-color: #e4eaff;
+            --delete-color: #ff6b6b;
+            --delete-hover: #ff5252;
+            --pin-color: #ffd700;
+            --pin-hover: #ffcc00;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --modal-overlay: rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a2e;
+            --card-bg: #2a2a40;
+            --text-color: #e6e6e6;
+            --secondary-text: #cccccc;
+            --light-text: #aaaaaa;
+            --border-color: #444456;
+            --hover-color: #303045;
+            --active-color: #3a3a52;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --modal-overlay: rgba(0, 0, 0, 0.7);
+        }
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             padding: 20px;
         }
-        
+
         header {
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            position: relative;
         }
-        
+
         h1 {
             font-size: 32px;
             margin-bottom: 10px;
         }
-        
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            width: 48px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            background-color: white;
+            bottom: 4px;
+            content: "";
+            height: 16px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 16px;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .toggle-edit-mode {
+            background-color: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .toggle-edit-mode:hover {
+            background-color: #2d3748;
+        }
+
+        .toggle-edit-mode svg {
+            width: 16px;
+            height: 16px;
+        }
+
         .search-container {
             display: flex;
             margin-bottom: 20px;
             gap: 10px;
         }
-        
+
         .search-container input {
             flex: 1;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 16px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
-        
+
         button {
-            background-color: #6e8efb;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 4px;
@@ -58,244 +173,552 @@
             transition: background-color 0.3s;
             font-size: 14px;
         }
-        
+
         button:hover {
             background-color: #5a7af0;
         }
-        
+
         .main-container {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
         }
-        
+
         .categories {
             flex: 1;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px var(--shadow-color);
         }
-        
+
         .content-area {
             flex: 3;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px var(--shadow-color);
         }
-        
-        .categories h2, .content-area h2 {
+
+        .categories h2,
+        .content-area h2 {
             margin-bottom: 15px;
-            color: #444;
-            border-bottom: 2px solid #f1f1f1;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
         }
-        
+
         .category-list {
             list-style: none;
         }
-        
+
         .category-item {
             padding: 10px;
             margin-bottom: 5px;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
+
         .category-item:hover {
-            background-color: #f1f5fe;
+            background-color: var(--hover-color);
         }
-        
+
         .category-item.active {
-            background-color: #e4eaff;
+            background-color: var(--active-color);
             font-weight: bold;
         }
-        
+
         .add-category {
             margin-top: 15px;
             display: flex;
             gap: 8px;
         }
-        
+
         .add-category input {
             flex: 1;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
-        
+
+        .pinned-resources {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--hover-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--pin-color);
+        }
+
+        .pinned-resources h3 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pinned-resources h3 svg {
+            color: var(--pin-color);
+        }
+
+        .pinned-resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
         .resource-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-        
+
         .resource-card {
-            border: 1px solid #eee;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 15px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px var(--shadow-color);
             transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
         }
-        
+
         .resource-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
-        
+
         .resource-card h3 {
             margin-bottom: 10px;
-            color: #333;
+            color: var(--text-color);
+            padding-right: 30px;
+            /* Make room for pin icon */
         }
-        
+
         .resource-card p {
-            color: #666;
+            color: var(--secondary-text);
             font-size: 14px;
             margin-bottom: 10px;
         }
-        
+
         .resource-card a {
-            color: #6e8efb;
+            color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
         }
-        
+
         .resource-card a:hover {
             text-decoration: underline;
         }
-        
+
         .resource-source {
             font-size: 12px;
-            color: #888;
+            color: var(--light-text);
             margin-top: 10px;
         }
-        
+
         .add-resource {
             margin-top: 15px;
-            background-color: #f9f9f9;
+            background-color: var(--hover-color);
             padding: 15px;
             border-radius: 8px;
         }
-        
+
         .add-resource h3 {
             margin-bottom: 10px;
-            color: #444;
+            color: var(--text-color);
         }
-        
+
         .form-group {
             margin-bottom: 12px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #555;
+            color: var(--secondary-text);
         }
-        
-        .form-group input, .form-group textarea {
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 14px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
         }
-        
+
         .form-group textarea {
             height: 80px;
             resize: vertical;
         }
-        
+
         .button-group {
             display: flex;
             gap: 10px;
         }
-        
+
         .dropzone {
-            border: 2px dashed #ddd;
+            border: 2px dashed var(--border-color);
             border-radius: 8px;
             padding: 20px;
             text-align: center;
             margin-bottom: 15px;
-            background-color: #f9f9f9;
+            background-color: var(--hover-color);
             transition: background-color 0.3s;
         }
-        
+
         .dropzone.active {
-            border-color: #6e8efb;
-            background-color: #f1f5fe;
+            border-color: var(--primary-color);
+            background-color: var(--active-color);
         }
-        
+
         .dropzone p {
-            color: #888;
+            color: var(--light-text);
         }
-        
+
         .edit-buttons {
             margin-top: 10px;
             display: flex;
             gap: 8px;
             justify-content: flex-end;
         }
-        
-        .edit-button, .delete-button {
+
+        .edit-button,
+        .delete-button {
             padding: 5px 10px;
             font-size: 12px;
         }
 
         .delete-button {
-            background-color: #ff6b6b;
+            background-color: var(--delete-color);
         }
-        
+
         .delete-button:hover {
-            background-color: #ff5252;
+            background-color: var(--delete-hover);
         }
-        
+
+        .pin-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: var(--light-text);
+        }
+
+        .pin-button svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .pin-button:hover svg {
+            transform: scale(1.2);
+            color: var(--pin-hover);
+        }
+
+        .pin-button.active svg {
+            color: var(--pin-color);
+            fill: var(--pin-color);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            margin-top: 8px;
+        }
+
+        .star {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .star.filled {
+            color: #ffc107;
+        }
+
+        .star:hover {
+            transform: scale(1.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--light-text);
+        }
+
+        .usage-stats {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--hover-color);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--secondary-text);
+        }
+
+        .resource-preview {
+            position: absolute;
+            display: none;
+            z-index: 100;
+            width: 240px;
+            height: 135px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .resource-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Hide edit elements when in view mode */
+        .view-mode .edit-buttons,
+        .view-mode .add-resource,
+        .view-mode .add-category,
+        .view-mode .dropzone,
+        .view-mode .category-item .delete-button {
+            display: none !important;
+        }
+
+        /* Make the pin button still visible in view mode */
+        .view-mode .pin-button {
+            display: block !important;
+        }
+
+        /* Scheduled resources section */
+        .scheduled-resources {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .scheduled-resources h2 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .scheduled-item {
+            background-color: var(--hover-color);
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scheduled-item .time {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .scheduled-item .note {
+            font-style: italic;
+            color: var(--secondary-text);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 flex-direction: column;
             }
-            
-            .resource-list {
+
+            .resource-list,
+            .pinned-resources-list {
                 grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Personal Development Hub</h1>
         <p>Your personalized collection of self-improvement resources</p>
+
+        <div class="header-controls">
+            <div class="theme-switch-wrapper">
+                <span>🌞</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span>🌙</span>
+            </div>
+
+            <button id="random-resource-btn" title="Show me a random resource">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                    <line x1="12" y1="11" x2="12" y2="17"></line>
+                    <line x1="9" y1="14" x2="15" y2="14"></line>
+                </svg>
+                Surprise Me
+            </button>
+
+            <button id="export-btn" title="Export your data">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+            </button>
+
+            <button id="import-btn" title="Import data">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Import
+            </button>
+
+            <button id="toggle-edit-mode" class="toggle-edit-mode" title="Toggle edit mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Edit Mode
+            </button>
+        </div>
     </header>
-    
+
     <div class="search-container">
         <input type="text" id="search-input" placeholder="Search resources...">
         <button id="search-button">Search</button>
     </div>
-    
+
     <div class="main-container">
         <div class="categories">
             <h2>Categories</h2>
             <ul class="category-list" id="category-list">
                 <!-- Categories will be loaded here -->
             </ul>
-            
+
             <div class="add-category">
                 <input type="text" id="new-category" placeholder="New category name">
                 <button id="add-category-btn">Add</button>
             </div>
         </div>
-        
+
         <div class="content-area">
             <h2 id="current-category">All Resources</h2>
-            
+
+            <div class="pinned-resources" id="pinned-resources">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L7 7H4v3l5 5"></path>
+                        <path d="M16 6l2 2"></path>
+                        <path d="M11 11l-6 6v3h3l6-6"></path>
+                        <path d="M14 14l7 7"></path>
+                        <path d="M14 14l-4-4"></path>
+                        <path d="M18 8l-6 6"></path>
+                    </svg>
+                    Pinned Resources
+                </h3>
+                <div class="pinned-resources-list" id="pinned-resources-list">
+                    <!-- Pinned resources will be loaded here -->
+                </div>
+            </div>
+
             <div class="dropzone" id="dropzone">
                 <p>Drag and drop files or links here</p>
             </div>
-            
+
             <div class="add-resource">
                 <h3>Add New Resource</h3>
                 <div class="form-group">
@@ -310,20 +733,126 @@
                     <label for="resource-url">URL or File Path</label>
                     <input type="text" id="resource-url" placeholder="Enter URL or local file path">
                 </div>
+                <div class="form-group">
+                    <label for="resource-category">Category</label>
+                    <select id="resource-category">
+                        <!-- Categories will be loaded here -->
+                    </select>
+                </div>
                 <div class="button-group">
                     <button id="add-resource-btn">Add Resource</button>
                     <button id="clear-form-btn">Clear</button>
                 </div>
             </div>
-            
+
             <div class="resource-list" id="resource-list">
                 <!-- Resources will be loaded here -->
             </div>
         </div>
     </div>
-    
+
+    <div class="scheduled-resources">
+        <h2>📅 Scheduled for Today</h2>
+        <div id="today-schedule-list">
+            <!-- Scheduled resources will be loaded here -->
+        </div>
+    </div>
+
+    <div class="usage-stats">
+        <h2>Usage Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-views">0</div>
+                <div class="stat-label">Total Resource Views</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-rating">0.0</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="top-category">-</div>
+                <div class="stat-label">Most Used Category</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="resources-count">0</div>
+                <div class="stat-label">Total Resources</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource preview element for hover effect -->
+    <div class="resource-preview" id="resource-preview">
+        <img src="" alt="Preview">
+    </div>
+
+    <!-- Schedule Modal -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-schedule-modal">&times;</button>
+            <h2>Schedule Resource</h2>
+            <div class="form-group">
+                <label for="schedule-date">Date</label>
+                <input type="date" id="schedule-date">
+            </div>
+            <div class="form-group">
+                <label for="schedule-time">Time (Optional)</label>
+                <input type="time" id="schedule-time">
+            </div>
+            <div class="form-group">
+                <label for="schedule-note">Note (Optional)</label>
+                <textarea id="schedule-note" placeholder="Write a note..."></textarea>
+            </div>
+            <div class="button-group">
+                <button id="save-schedule">Save</button>
+                <button id="cancel-schedule" style="background-color: #ccc;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div id="rating-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-rating-modal">&times;</button>
+            <h2>Rate Resource</h2>
+            <div class="form-group">
+                <label>How helpful was this resource?</label>
+                <div class="rating-stars" id="rating-stars-modal">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rating-notes">Notes (Optional)</label>
+                <textarea id="rating-notes" placeholder="What did you like or dislike about this resource?"></textarea>
+            </div>
+            <div class="button-group">
+                <button id="save-rating">Save Rating</button>
+                <button id="cancel-rating" style="background-color: #ccc;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import/Export Modal -->
+    <div id="import-export-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-import-export-modal">&times;</button>
+            <h2 id="import-export-modal-title">Import/Export Data</h2>
+            <div class="form-group">
+                <label for="import-export-data">Data</label>
+                <textarea id="import-export-data" style="height: 200px;"
+                    placeholder="Paste your JSON data here..."></textarea>
+            </div>
+            <div class="button-group" id="import-export-buttons">
+                <!-- Buttons will be added dynamically based on context -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Store data in localStorage
+        // Store data in localStorage with expanded properties
         let categories = JSON.parse(localStorage.getItem('pdh-categories')) || [
             'Meditation',
             'EMDR',
@@ -336,9 +865,10 @@
             'NLP Techniques',
             'Motivational'
         ];
-        
+
+        // Initialize resources with additional properties for new features
         let resources = JSON.parse(localStorage.getItem('pdh-resources')) || [
-            {
+        {
                 id: 1,
                 title: 'Guided Meditation for Beginners',
                 description: 'A 10-minute guided meditation for beginners to practice mindfulness.',
@@ -359,7 +889,7 @@
                 title: 'Self-Brainspotting Exercise',
                 description: 'A guide to practicing brainspotting techniques at home.',
                 url: 'https://www.youtube.com/watch?v=GB-sesklJTo',
-                category: 'Self-brainspotting',
+                category: 'brainspotting',
                 source: 'online'
             },
             {
@@ -485,7 +1015,7 @@
             {
                 id: 19,
                 title: 'Tony Robbins - Emotional Flood Exercise',
-                description: 'Exercise to release negative emotions and create a positive emotional state.',
+                description: 'Shift Emotional States, Physically Prime the Body, Anchor gratitude.',
                 url: 'https://www.youtube.com/watch?v=3nQcf6pY0o0',
                 category: 'Motivational',
                 source: 'online'
@@ -501,313 +1031,999 @@
             {
                 id: 21,
                 title: 'Mary Elkins - What is Brainspotting?',
-                description: 'Exercise to release negative emotions and create a positive emotional state.',
+                description: 'Introduction to brainspotting.',
                 url: 'https://www.youtube.com/watch?v=jcqvyDfpxfM',
                 category: 'Motivational',
                 source: 'online'
-            }
-        ];
-        
-        let currentCategory = 'All';
+            },
+            {
+                id: 22,
+                title: 'Glenn Ackerman - Energy Awareness Training',
+                description: 'Exercise to release negative emotions and create a positive emotional state.',
+                url: 'https://www.youtube.com/watch?v=0_ZeiExjsDo',
+                category: 'Energy',
+                source: 'online'
+            },
+            {
+                id: 23,
+                title: 'Tony Robbins - Heartbeat Breathing Exercise V2',
+                description: 'Enhance emotional regulation, boost energy and clarity, prime the mind body connection.',
+                url: 'https://www.youtube.com/watch?v=Q4niCtaQSeY',
+                category: 'Motivational',
+                source: 'online'
+            },
+            {
+                id: 24,
+                title: 'Master Co - Give Me 10 Minutes, And Your Energy Will Be Transformed',
+                description: 'Cleanse and align the body\'s energy system, shift energy frequencies through color visualization and enhance receptivity.',
+				url: 'https://www.youtube.com/watch?v=iL5y3CwtN5E',
+                category: 'Energy',
+                source: 'online'
+            },
+            {
+                id: 25,
+                title: 'Master Co - Abridged Meditation on Twin Hearts',
+                description: 'Twin Hearts is a technique designed to achieve illumination (consciousness) and promote global peace. It focuses on activating two key energy centers',
+                url: 'https://www.youtube.com/watch?v=N884jNJJpGc',
+                category: 'Energy',
+                source: 'online'
+            },
+            {
+                id: 26,
+                title: 'Teal Swan - Connecting With and Healing Your Heart (Heart Meditation)',
+                description: 'Reconnect with the heart as a spiritual center, Release Emotional Trauma, Cultivate Compassion and Unity Consciousness, Anchor in Intuition and Higher Self',
+                url: 'https://www.youtube.com/watch?v=6Pl2L2fxVdk',
+                category: 'Energy',
+                source: 'online'
+            },
+			{
+                id: 27,
+                title: 'Misc - Mindvalley Meditations (Playlist)',
+                description: 'Reconnect with the heart as a spiritual center, Release Emotional Trauma, Cultivate Compassion and Unity Consciousness, Anchor in Intuition and Higher Self',
+                url: 'https://www.youtube.com/playlist?list=PLcTZ8xyOL50GwTl706mXK3xjaINd7saAP',
+                category: 'Energy',
+                source: 'online'
+			},
+            {
+                id: 28,
+                title: 'Misc - Mindvalley Meditations (Playlist)',
+                description: 'Reconnect with the heart as a spiritual center, Release Emotional Trauma, Cultivate Compassion and Unity Consciousness, Anchor in Intuition and Higher Self',
+                url: 'https://www.youtube.com/playlist?list=PLcTZ8xyOL50GwTl706mXK3xjaINd7saAP',
+                category: 'Energy',
+                source: 'online'
+            },
+            {
+                id: 29,
+                title: 'Misc - Mindvalley Meditations (Playlist)',
+                description: 'Reconnect with the heart as a spiritual center, Release Emotional Trauma, Cultivate Compassion and Unity Consciousness, Anchor in Intuition and Higher Self',
+                url: 'https://www.youtube.com/playlist?list=PLcTZ8xyOL50GwTl706mXK3xjaINd7saAP',
+                category: 'Energy',
+                source: 'online'
+            },
+			{
+                id: 27,
+                title: 'Misc - Mindvalley Meditations (Playlist)',
+                description: 'Reconnect with the heart as a spiritual center, Release Emotional Trauma, Cultivate Compassion and Unity Consciousness, Anchor in Intuition and Higher Self',
+                url: 'https://www.youtube.com/playlist?list=PLcTZ8xyOL50GwTl706mXK3xjaINd7saAP',
+                category: 'Energy',
+                source: 'online'
+			},
+		];
+
+        // Global state variables
+        let currentCategory = 'All Resources';
+        let editMode = true;
+        let currentResourceForModal = null;
         let nextId = Math.max(...resources.map(r => r.id), 0) + 1;
-        
+
         // DOM Elements
         const categoryList = document.getElementById('category-list');
         const resourceList = document.getElementById('resource-list');
-        const currentCategoryTitle = document.getElementById('current-category');
+        const pinnedResourcesList = document.getElementById('pinned-resources-list');
+        const pinnedResourcesContainer = document.getElementById('pinned-resources');
+        const currentCategoryHeader = document.getElementById('current-category');
         const newCategoryInput = document.getElementById('new-category');
         const addCategoryBtn = document.getElementById('add-category-btn');
         const resourceTitleInput = document.getElementById('resource-title');
         const resourceDescriptionInput = document.getElementById('resource-description');
         const resourceUrlInput = document.getElementById('resource-url');
+        const resourceCategorySelect = document.getElementById('resource-category');
         const addResourceBtn = document.getElementById('add-resource-btn');
         const clearFormBtn = document.getElementById('clear-form-btn');
         const searchInput = document.getElementById('search-input');
         const searchButton = document.getElementById('search-button');
         const dropzone = document.getElementById('dropzone');
-        
+        const themeToggle = document.getElementById('theme-toggle');
+        const toggleEditModeButton = document.getElementById('toggle-edit-mode');
+        const randomResourceButton = document.getElementById('random-resource-btn');
+        const exportButton = document.getElementById('export-btn');
+        const importButton = document.getElementById('import-btn');
+        const resourcePreview = document.getElementById('resource-preview');
+
+        // Stats Elements
+        const totalViewsElement = document.getElementById('total-views');
+        const avgRatingElement = document.getElementById('avg-rating');
+        const topCategoryElement = document.getElementById('top-category');
+        const resourcesCountElement = document.getElementById('resources-count');
+
+        // Modals
+        const scheduleModal = document.getElementById('schedule-modal');
+        const ratingModal = document.getElementById('rating-modal');
+        const importExportModal = document.getElementById('import-export-modal');
+
         // Initialize the application
         function init() {
-            renderCategories();
-            renderResources();
+            loadCategories();
+            loadResources();
+            updateStats();
             setupEventListeners();
+
+            // Check if edit mode was saved
+            const savedEditMode = localStorage.getItem('pdh-edit-mode');
+            if (savedEditMode === 'false') {
+                editMode = false;
+                document.body.classList.add('view-mode');
+                toggleEditModeButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            View Mode
+        `;
+            }
+
+            // Check theme
+            const savedTheme = localStorage.getItem('pdh-theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.checked = true;
+            }
+
+            // Check today's scheduled resources
+            checkTodaySchedule();
         }
-        
-        // Render category list
-        function renderCategories() {
-            categoryList.innerHTML = `
-                <li class="category-item ${currentCategory === 'All' ? 'active' : ''}" data-category="All">
-                    All Resources
-                </li>
-            `;
-            
-            categories.forEach(category => {
-                categoryList.innerHTML += `
-                    <li class="category-item ${currentCategory === category ? 'active' : ''}" data-category="${category}">
-                        ${category}
-                        <span class="edit-buttons">
-                            <button class="delete-button" data-category="${category}">×</button>
-                        </span>
-                    </li>
-                `;
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            themeToggle.addEventListener('change', toggleTheme);
+
+            // Edit mode toggle
+            toggleEditModeButton.addEventListener('click', toggleEditMode);
+
+            // Category management
+            addCategoryBtn.addEventListener('click', addCategory);
+            categoryList.addEventListener('click', handleCategoryClick);
+
+            // Resource management
+            addResourceBtn.addEventListener('click', addResource);
+            clearFormBtn.addEventListener('click', clearResourceForm);
+            resourceList.addEventListener('click', handleResourceAction);
+            pinnedResourcesList.addEventListener('click', handleResourceAction);
+
+            // Search
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Random resource
+            randomResourceButton.addEventListener('click', showRandomResource);
+
+            // Import/Export
+            exportButton.addEventListener('click', showExportDialog);
+            importButton.addEventListener('click', showImportDialog);
+
+            // Modal close buttons
+            document.getElementById('close-schedule-modal').addEventListener('click', () => {
+                scheduleModal.style.display = 'none';
+            });
+
+            document.getElementById('close-rating-modal').addEventListener('click', () => {
+                ratingModal.style.display = 'none';
+            });
+
+            document.getElementById('close-import-export-modal').addEventListener('click', () => {
+                importExportModal.style.display = 'none';
+            });
+
+            // Schedule modal buttons
+            document.getElementById('save-schedule').addEventListener('click', saveSchedule);
+            document.getElementById('cancel-schedule').addEventListener('click', () => {
+                scheduleModal.style.display = 'none';
+            });
+
+            // Rating modal buttons
+            document.getElementById('save-rating').addEventListener('click', saveRating);
+            document.getElementById('cancel-rating').addEventListener('click', () => {
+                ratingModal.style.display = 'none';
+            });
+
+            // Setup star rating in modal
+            setupStarRating();
+
+            // Handle resource hover preview
+            document.addEventListener('mousemove', handleResourceHover);
+
+            // Setup drag and drop
+            setupDragAndDrop();
+
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === scheduleModal) scheduleModal.style.display = 'none';
+                if (e.target === ratingModal) ratingModal.style.display = 'none';
+                if (e.target === importExportModal) importExportModal.style.display = 'none';
             });
         }
-        
-        // Render resource list
-        function renderResources(searchQuery = '') {
+
+        // Toggle between light and dark theme
+        function toggleTheme() {
+            if (themeToggle.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('pdh-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('pdh-theme', 'light');
+            }
+        }
+
+        // Toggle between edit and view mode
+        function toggleEditMode() {
+            editMode = !editMode;
+
+            if (editMode) {
+                document.body.classList.remove('view-mode');
+                toggleEditModeButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Edit Mode
+        `;
+            } else {
+                document.body.classList.add('view-mode');
+                toggleEditModeButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            View Mode
+        `;
+            }
+
+            localStorage.setItem('pdh-edit-mode', editMode.toString());
+        }
+
+        // Load categories from storage and populate the UI
+        function loadCategories() {
+            // Clear existing categories
+            categoryList.innerHTML = '';
+            resourceCategorySelect.innerHTML = '';
+
+            // Add "All Resources" option to dropdown
+            const allOption = document.createElement('option');
+            allOption.value = 'All Resources';
+            allOption.textContent = 'All Resources';
+            resourceCategorySelect.appendChild(allOption);
+
+            // Create a list item for "All Resources"
+            const allItem = document.createElement('li');
+            allItem.className = 'category-item' + (currentCategory === 'All Resources' ? ' active' : '');
+            allItem.dataset.category = 'All Resources';
+            allItem.innerHTML = `
+        <span>All Resources</span>
+    `;
+            categoryList.appendChild(allItem);
+
+            // Add each category
+            categories.forEach(category => {
+                // Add to category list
+                const li = document.createElement('li');
+                li.className = 'category-item' + (currentCategory === category ? ' active' : '');
+                li.dataset.category = category;
+                li.innerHTML = `
+            <span>${category}</span>
+            <button class="delete-button" data-category="${category}">×</button>
+        `;
+                categoryList.appendChild(li);
+
+                // Add to category select
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                resourceCategorySelect.appendChild(option);
+            });
+        }
+
+        // Load resources from storage and populate the UI
+        function loadResources(searchTerm = '') {
+            // Clear existing resources
             resourceList.innerHTML = '';
-            
+            pinnedResourcesList.innerHTML = '';
+
+            // Filter resources by current category and search term
             let filteredResources = resources;
-            
+
             // Filter by category
-            if (currentCategory !== 'All') {
+            if (currentCategory !== 'All Resources') {
                 filteredResources = filteredResources.filter(resource => resource.category === currentCategory);
             }
-            
-            // Filter by search query
-            if (searchQuery) {
-                const query = searchQuery.toLowerCase();
-                filteredResources = filteredResources.filter(resource => 
-                    resource.title.toLowerCase().includes(query) || 
-                    resource.description.toLowerCase().includes(query)
+
+            // Filter by search term
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredResources = filteredResources.filter(resource =>
+                    resource.title.toLowerCase().includes(term) ||
+                    resource.description.toLowerCase().includes(term)
                 );
             }
-            
+
+            // Check if there are any pinned resources
+            const hasPinnedResources = filteredResources.some(resource => resource.pinned);
+            pinnedResourcesContainer.style.display = hasPinnedResources ? 'block' : 'none';
+
+            // Check if there are any resources at all
             if (filteredResources.length === 0) {
-                resourceList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No resources found. Add a new resource or try a different search.</p>';
+                resourceList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 30px; color: var(--light-text);">No resources found. Add a new resource or try a different search.</p>';
                 return;
             }
-            
+
+            // Add each resource
             filteredResources.forEach(resource => {
-                const isLocalFile = resource.url.startsWith('file://') || !resource.url.startsWith('http');
-                const sourceType = isLocalFile ? 'Local File' : 'Online Resource';
-                
-                resourceList.innerHTML += `
-                    <div class="resource-card" data-id="${resource.id}">
-                        <h3>${resource.title}</h3>
-                        <p>${resource.description}</p>
-                        <a href="${resource.url}" target="_blank">Open Resource</a>
-                        <div class="resource-source">${sourceType} • Category: ${resource.category}</div>
-                        <div class="edit-buttons">
-                            <button class="edit-button" data-id="${resource.id}">Edit</button>
-                            <button class="delete-button" data-id="${resource.id}">Delete</button>
-                        </div>
-                    </div>
-                `;
+                const resourceCard = createResourceCard(resource);
+
+                if (resource.pinned) {
+                    pinnedResourcesList.appendChild(resourceCard.cloneNode(true));
+                }
+
+                resourceList.appendChild(resourceCard);
             });
         }
+
+        // Create a resource card element
+        function createResourceCard(resource) {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+            card.dataset.id = resource.id;
+
+            // Get YouTube thumbnail if it's a YouTube URL
+            const youtubeId = getYouTubeId(resource.url);
+            const thumbnailUrl = youtubeId ?
+                `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` :
+                '';
+
+            // Format the last viewed date if available
+            const lastViewedText = resource.lastViewed ?
+                `Last viewed: ${new Date(resource.lastViewed).toLocaleDateString()}` :
+                'Not viewed yet';
+
+            card.innerHTML = `
+        <h3>${resource.title}</h3>
+        <p>${resource.description}</p>
+        <a href="${resource.url}" target="_blank" class="visit-link" data-id="${resource.id}">Visit Resource</a>
+        <div class="resource-source">
+            ${resource.source} • Category: ${resource.category} • ${lastViewedText}
+            ${resource.viewCount > 0 ? `• Views: ${resource.viewCount}` : ''}
+        </div>
         
-        // Setup event listeners
-        function setupEventListeners() {
-            // Category selection
-            categoryList.addEventListener('click', (e) => {
-                if (e.target.classList.contains('category-item')) {
-                    currentCategory = e.target.dataset.category;
-                    currentCategoryTitle.textContent = currentCategory;
-                    document.querySelectorAll('.category-item').forEach(item => item.classList.remove('active'));
-                    e.target.classList.add('active');
-                    renderResources();
+        <div class="rating-stars" data-id="${resource.id}">
+            ${generateStars(resource.rating)}
+        </div>
+        
+        <button class="pin-button ${resource.pinned ? 'active' : ''}" data-id="${resource.id}" title="${resource.pinned ? 'Unpin' : 'Pin'} this resource">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="${resource.pinned ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L7 7H4v3l5 5"></path>
+                <path d="M16 6l2 2"></path>
+                <path d="M11 11l-6 6v3h3l6-6"></path>
+                <path d="M14 14l7 7"></path>
+                <path d="M14 14l-4-4"></path>
+                <path d="M18 8l-6 6"></path>
+            </svg>
+        </button>
+        
+        <div class="edit-buttons">
+            <button class="edit-button" data-id="${resource.id}">Edit</button>
+            <button class="delete-button" data-id="${resource.id}">Delete</button>
+            <button class="schedule-button" data-id="${resource.id}">Schedule</button>
+        </div>
+        
+        <div class="resource-preview-data" style="display:none;" data-thumbnail="${thumbnailUrl}"></div>
+    `;
+
+            return card;
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                starsHtml += `<span class="star ${i <= rating ? 'filled' : ''}" data-value="${i}">★</span>`;
+            }
+            return starsHtml;
+        }
+
+        // Extract YouTube video ID from URL
+        function getYouTubeId(url) {
+            if (!url) return null;
+
+            // Match YouTube URL patterns
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // Add a new category
+        function addCategory() {
+            const categoryName = newCategoryInput.value.trim();
+
+            if (categoryName && !categories.includes(categoryName)) {
+                categories.push(categoryName);
+                saveCategories();
+                loadCategories();
+                loadResources();
+                newCategoryInput.value = '';
+            }
+        }
+
+        // Handle clicks on category items
+        function handleCategoryClick(e) {
+            const target = e.target;
+
+            // Handle delete button click
+            if (target.classList.contains('delete-button')) {
+                const categoryToDelete = target.dataset.category;
+                deleteCategory(categoryToDelete);
+                return;
+            }
+
+            // Handle category selection
+            const categoryItem = target.closest('.category-item');
+            if (categoryItem) {
+                currentCategory = categoryItem.dataset.category;
+
+                // Update active class
+                document.querySelectorAll('.category-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                categoryItem.classList.add('active');
+
+                // Update header
+                currentCategoryHeader.textContent = currentCategory;
+
+                // Reload resources
+                loadResources();
+            }
+        }
+
+        // Delete a category
+        function deleteCategory(categoryName) {
+            if (confirm(`Are you sure you want to delete the category "${categoryName}"? This will not delete resources in this category.`)) {
+                categories = categories.filter(cat => cat !== categoryName);
+
+                // Update resources in this category to "Uncategorized"
+                resources.forEach(resource => {
+                    if (resource.category === categoryName) {
+                        resource.category = 'Uncategorized';
+                    }
+                });
+
+                // Add "Uncategorized" if it doesn't exist
+                if (!categories.includes('Uncategorized') && resources.some(r => r.category === 'Uncategorized')) {
+                    categories.push('Uncategorized');
                 }
-                
-                // Delete category
-                if (e.target.classList.contains('delete-button') && e.target.dataset.category) {
-                    const categoryToDelete = e.target.dataset.category;
-                    if (confirm(`Are you sure you want to delete the category "${categoryToDelete}"?`)) {
-                        categories = categories.filter(cat => cat !== categoryToDelete);
-                        localStorage.setItem('pdh-categories', JSON.stringify(categories));
-                        
-                        // Reassign resources from this category to "Uncategorized"
-                        resources.forEach(resource => {
-                            if (resource.category === categoryToDelete) {
-                                resource.category = 'Uncategorized';
-                            }
-                        });
-                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
-                        
-                        // Add "Uncategorized" category if it doesn't exist
-                        if (!categories.includes('Uncategorized') && resources.some(r => r.category === 'Uncategorized')) {
-                            categories.push('Uncategorized');
-                            localStorage.setItem('pdh-categories', JSON.stringify(categories));
+
+                saveCategories();
+                saveResources();
+
+                // If current category is deleted, switch to "All Resources"
+                if (currentCategory === categoryName) {
+                    currentCategory = 'All Resources';
+                    currentCategoryHeader.textContent = currentCategory;
+                }
+
+                loadCategories();
+                loadResources();
+            }
+        }
+
+        // Add a new resource
+        function addResource() {
+            const title = resourceTitleInput.value.trim();
+            const description = resourceDescriptionInput.value.trim();
+            const url = resourceUrlInput.value.trim();
+            const category = resourceCategorySelect.value;
+
+            if (title && url) {
+                const newResource = {
+                    id: nextId++,
+                    title,
+                    description,
+                    url,
+                    category,
+                    source: detectResourceSource(url),
+                    pinned: false,
+                    rating: 0,
+                    ratingNotes: '',
+                    viewCount: 0,
+                    lastViewed: null,
+                    dateAdded: new Date().toISOString()
+                };
+
+                resources.push(newResource);
+                saveResources();
+                clearResourceForm();
+                loadResources();
+                updateStats();
+            }
+        }
+
+        // Handle resource actions (visit, edit, delete, pin)
+        function handleResourceAction(e) {
+            const target = e.target;
+            const resourceId = parseInt(target.dataset.id || target.closest('[data-id]')?.dataset.id);
+
+            if (!resourceId) return;
+
+            const resource = resources.find(r => r.id === resourceId);
+            if (!resource) return;
+
+            // Handle visit link
+            if (target.classList.contains('visit-link')) {
+                // Update view count
+                resource.viewCount++;
+                resource.lastViewed = new Date().toISOString();
+                saveResources();
+                updateStats();
+
+                // Show rating modal after a delay (only if not rated yet)
+                if (resource.rating === 0) {
+                    setTimeout(() => {
+                        currentResourceForModal = resource;
+                        showRatingModal(resource);
+                    }, 3000);
+                }
+                return;
+            }
+
+            // Handle pin button
+            if (target.closest('.pin-button')) {
+                togglePinResource(resourceId);
+                return;
+            }
+
+            // Handle edit button
+            if (target.classList.contains('edit-button')) {
+                editResource(resource);
+                return;
+            }
+
+            // Handle delete button
+            if (target.classList.contains('delete-button')) {
+                deleteResource(resourceId);
+                return;
+            }
+
+            // Handle schedule button
+            if (target.classList.contains('schedule-button')) {
+                currentResourceForModal = resource;
+                showScheduleModal(resource);
+                return;
+            }
+
+            // Handle star rating
+            if (target.classList.contains('star')) {
+                const rating = parseInt(target.dataset.value);
+                rateResource(resourceId, rating);
+                return;
+            }
+        }
+
+        // Toggle pinning a resource
+        function togglePinResource(resourceId) {
+            const resourceIndex = resources.findIndex(r => r.id === resourceId);
+            if (resourceIndex !== -1) {
+                resources[resourceIndex].pinned = !resources[resourceIndex].pinned;
+                saveResources();
+                loadResources();
+            }
+        }
+
+        // Edit a resource
+        function editResource(resource) {
+            resourceTitleInput.value = resource.title;
+            resourceDescriptionInput.value = resource.description;
+            resourceUrlInput.value = resource.url;
+            resourceCategorySelect.value = resource.category;
+
+            // Scroll to the form
+            document.querySelector('.add-resource').scrollIntoView({ behavior: 'smooth' });
+
+            // Change button text
+            addResourceBtn.textContent = 'Update Resource';
+
+            // Save resourceId to data attribute for updating
+            addResourceBtn.dataset.editId = resource.id;
+
+            // Change event listener temporarily
+            addResourceBtn.removeEventListener('click', addResource);
+            const updateHandler = () => {
+                updateResource(resource.id);
+
+                // Reset button and event listener
+                addResourceBtn.textContent = 'Add Resource';
+                delete addResourceBtn.dataset.editId;
+                addResourceBtn.removeEventListener('click', updateHandler);
+                addResourceBtn.addEventListener('click', addResource);
+            };
+
+            addResourceBtn.addEventListener('click', updateHandler, { once: true });
+        }
+
+        // Update an existing resource
+        function updateResource(resourceId) {
+            const resourceIndex = resources.findIndex(r => r.id === resourceId);
+
+            if (resourceIndex !== -1) {
+                const resource = resources[resourceIndex];
+
+                resource.title = resourceTitleInput.value.trim();
+                resource.description = resourceDescriptionInput.value.trim();
+                resource.url = resourceUrlInput.value.trim();
+                resource.category = resourceCategorySelect.value;
+                resource.source = detectResourceSource(resource.url);
+
+                saveResources();
+                clearResourceForm();
+                loadResources();
+            }
+        }
+
+        // Delete a resource
+        function deleteResource(resourceId) {
+            if (confirm('Are you sure you want to delete this resource?')) {
+                resources = resources.filter(r => r.id !== resourceId);
+                saveResources();
+                updateStats();
+                loadResources();
+            }
+        }
+
+        // Rate a resource
+        function rateResource(resourceId, rating) {
+            const resourceIndex = resources.findIndex(r => r.id === resourceId);
+
+            if (resourceIndex !== -1) {
+                resources[resourceIndex].rating = rating;
+                saveResources();
+                updateStats();
+                loadResources();
+            }
+        }
+
+        // Search resources
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+
+            if (!searchTerm) {
+                loadResources();
+                currentCategoryHeader.textContent = currentCategory;
+                return;
+            }
+
+            // Update header to show search results
+            currentCategoryHeader.textContent = `Search Results: "${searchTerm}"`;
+
+            // Load resources with search term
+            loadResources(searchTerm);
+        }
+
+        // Show a random resource
+        function showRandomResource() {
+            const filteredResources = resources.filter(resource =>
+                currentCategory === 'All Resources' || resource.category === currentCategory
+            );
+
+            if (filteredResources.length > 0) {
+                const randomIndex = Math.floor(Math.random() * filteredResources.length);
+                const randomResource = filteredResources[randomIndex];
+
+                // Create modal to display the random resource
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'flex';
+
+                modal.innerHTML = `
+            <div class="modal-content" style="max-width: 600px;">
+                <button class="modal-close">&times;</button>
+                <h2>Random Resource</h2>
+                <div class="resource-card" style="box-shadow: none; border: none;">
+                    <h3>${randomResource.title}</h3>
+                    <p>${randomResource.description}</p>
+                    <a href="${randomResource.url}" target="_blank" class="visit-link" data-id="${randomResource.id}">Visit Resource</a>
+                    <div class="resource-source">Source: ${randomResource.source}</div>
+                    <div class="rating-stars" data-id="${randomResource.id}">
+                        ${generateStars(randomResource.rating)}
+                    </div>
+                </div>
+                <button id="find-another-random" style="margin-top: 15px;">Find Another</button>
+            </div>
+        `;
+
+                document.body.appendChild(modal);
+
+                // Add event listeners
+                modal.querySelector('.modal-close').addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                });
+
+                modal.querySelector('#find-another-random').addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                    showRandomResource();
+                });
+
+                modal.querySelector('.visit-link').addEventListener('click', () => {
+                    // Update view count
+                    randomResource.viewCount++;
+                    randomResource.lastViewed = new Date().toISOString();
+                    saveResources();
+                    updateStats();
+                });
+
+                // Close when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            } else {
+                alert('No resources available to show.');
+            }
+        }
+
+        // Show schedule modal
+        function showScheduleModal(resource) {
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('schedule-date').valueAsDate = tomorrow;
+
+            // Clear time and note fields
+            document.getElementById('schedule-time').value = '';
+            document.getElementById('schedule-note').value = '';
+
+            // Display modal
+            scheduleModal.style.display = 'flex';
+        }
+
+        // Save schedule
+        function saveSchedule() {
+            if (!currentResourceForModal) return;
+
+            const scheduleDate = document.getElementById('schedule-date').value;
+            const scheduleTime = document.getElementById('schedule-time').value;
+            const scheduleNote = document.getElementById('schedule-note').value;
+
+            if (!scheduleDate) {
+                alert('Please select a date');
+                return;
+            }
+
+            // Get schedule from localStorage or initialize empty array
+            let scheduledResources = JSON.parse(localStorage.getItem('pdh-scheduled-resources')) || [];
+
+            // Add new scheduled resource
+            scheduledResources.push({
+                resourceId: currentResourceForModal.id,
+                title: currentResourceForModal.title,
+                date: scheduleDate,
+                time: scheduleTime,
+                note: scheduleNote
+            });
+
+            // Save to localStorage
+            localStorage.setItem('pdh-scheduled-resources', JSON.stringify(scheduledResources));
+
+            // Close modal
+            scheduleModal.style.display = 'none';
+
+            // Update scheduled resources display
+            checkTodaySchedule();
+
+            // Reset current resource
+            currentResourceForModal = null;
+        }
+
+        // Check for today's scheduled resources
+        function checkTodaySchedule() {
+            const scheduledResources = JSON.parse(localStorage.getItem('pdh-scheduled-resources')) || [];
+            const todayScheduleList = document.getElementById('today-schedule-list');
+            todayScheduleList.innerHTML = '';
+
+            // Get today's date in YYYY-MM-DD format
+            const today = new Date().toISOString().split('T')[0];
+
+            // Filter scheduled resources for today
+            const todayResources = scheduledResources.filter(item => item.date === today);
+
+            if (todayResources.length === 0) {
+                todayScheduleList.innerHTML = '<p>No resources scheduled for today.</p>';
+                return;
+            }
+
+            // Sort by time
+            todayResources.sort((a, b) => {
+                if (!a.time) return 1;
+                if (!b.time) return -1;
+                return a.time.localeCompare(b.time);
+            });
+
+            // Add each scheduled resource
+            todayResources.forEach(item => {
+                const scheduledItem = document.createElement('div');
+                scheduledItem.className = 'scheduled-item';
+
+                scheduledItem.innerHTML = `
+            <div>
+                <strong>${item.title}</strong>
+                ${item.time ? `<span class="time"> at ${formatTime(item.time)}</span>` : ''}
+                ${item.note ? `<div class="note">${item.note}</div>` : ''}
+            </div>
+            <div>
+                <a href="#" class="visit-scheduled" data-id="${item.resourceId}">Visit</a>
+            </div>
+        `;
+
+                todayScheduleList.appendChild(scheduledItem);
+            });
+
+            // Add event listeners for visit links
+            document.querySelectorAll('.visit-scheduled').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const resourceId = parseInt(e.target.dataset.id);
+                    const resource = resources.find(r => r.id === resourceId);
+
+                    if (resource) {
+                        window.open(resource.url, '_blank');
+
+                        // Update view count
+                        resource.viewCount++;
+                        resource.lastViewed = new Date().toISOString();
+                        saveResources();
+                        updateStats();
+                    }
+                });
+            });
+        }
+
+        // Format time from 24H to 12H format
+        function formatTime(time) {
+            const [hours, minutes] = time.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+
+        // Show rating modal
+        function showRatingModal(resource) {
+            // Reset stars
+            document.querySelectorAll('#rating-stars-modal .star').forEach(star => {
+                star.classList.remove('filled');
+            });
+
+            // Clear notes
+            document.getElementById('rating-notes').value = '';
+
+            // Display modal
+            ratingModal.style.display = 'flex';
+        }
+
+        // Setup star rating in modal
+        function setupStarRating() {
+            const starContainer = document.getElementById('rating-stars-modal');
+
+            starContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('star')) {
+                    const rating = parseInt(e.target.dataset.value);
+
+                    // Update stars visual
+                    document.querySelectorAll('#rating-stars-modal .star').forEach(star => {
+                        const starValue = parseInt(star.dataset.value);
+                        if (starValue <= rating) {
+                            star.classList.add('filled');
+                        } else {
+                            star.classList.remove('filled');
                         }
-                        
-                        // Reset current category if deleted
-                        if (currentCategory === categoryToDelete) {
-                            currentCategory = 'All';
-                            currentCategoryTitle.textContent = 'All Resources';
-                        }
-                        
-                        renderCategories();
-                        renderResources();
-                    }
+                    });
                 }
             });
-            
-            // Add new category
-            addCategoryBtn.addEventListener('click', () => {
-                const newCategory = newCategoryInput.value.trim();
-                if (newCategory && !categories.includes(newCategory)) {
-                    categories.push(newCategory);
-                    localStorage.setItem('pdh-categories', JSON.stringify(categories));
-                    newCategoryInput.value = '';
-                    renderCategories();
-                    
-                    // Switch to new category
-                    currentCategory = newCategory;
-                    currentCategoryTitle.textContent = currentCategory;
-                    renderResources();
-                }
-            });
-            
-            // Add new resource
-            addResourceBtn.addEventListener('click', () => {
-                const title = resourceTitleInput.value.trim();
-                const description = resourceDescriptionInput.value.trim();
-                let url = resourceUrlInput.value.trim();
-                
-                if (title && url) {
-                    // Add file:// protocol if it looks like a local path and doesn't have a protocol
-                    if (!url.startsWith('http') && !url.startsWith('file://')) {
-                        url = `file://${url}`;
-                    }
-                    
-                    const newResource = {
-                        id: nextId++,
-                        title,
-                        description,
-                        url,
-                        category: currentCategory === 'All' ? 'Uncategorized' : currentCategory,
-                        source: url.startsWith('file://') ? 'local' : 'online'
-                    };
-                    
-                    resources.push(newResource);
-                    localStorage.setItem('pdh-resources', JSON.stringify(resources));
-                    
-                    // Add 'Uncategorized' category if needed
-                    if (newResource.category === 'Uncategorized' && !categories.includes('Uncategorized')) {
-                        categories.push('Uncategorized');
-                        localStorage.setItem('pdh-categories', JSON.stringify(categories));
-                        renderCategories();
-                    }
-                    
-                    // Clear form
-                    resourceTitleInput.value = '';
-                    resourceDescriptionInput.value = '';
-                    resourceUrlInput.value = '';
-                    
-                    renderResources();
-                }
-            });
-            
-            // Clear form
-            clearFormBtn.addEventListener('click', () => {
-                resourceTitleInput.value = '';
-                resourceDescriptionInput.value = '';
-                resourceUrlInput.value = '';
-            });
-            
-            // Search resources
-            searchButton.addEventListener('click', () => {
-                renderResources(searchInput.value.trim());
-            });
-            
-            searchInput.addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    renderResources(searchInput.value.trim());
-                }
-            });
-            
-            // Resource list actions (edit/delete)
-            resourceList.addEventListener('click', (e) => {
-                // Delete resource
-                if (e.target.classList.contains('delete-button') && e.target.dataset.id) {
-                    const id = parseInt(e.target.dataset.id);
-                    const resourceToDelete = resources.find(r => r.id === id);
-                    
-                    if (confirm(`Are you sure you want to delete "${resourceToDelete.title}"?`)) {
-                        resources = resources.filter(r => r.id !== id);
-                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
-                        renderResources();
-                    }
-                }
-                
-                // Edit resource
-                if (e.target.classList.contains('edit-button') && e.target.dataset.id) {
-                    const id = parseInt(e.target.dataset.id);
-                    const resourceToEdit = resources.find(r => r.id === id);
-                    
-                    // Populate form with resource data
-                    resourceTitleInput.value = resourceToEdit.title;
-                    resourceDescriptionInput.value = resourceToEdit.description;
-                    resourceUrlInput.value = resourceToEdit.url;
-                    
-                    // Change add button to update button
-                    addResourceBtn.textContent = 'Update Resource';
-                    
-                    // New event for update
-                    const updateHandler = () => {
-                        resourceToEdit.title = resourceTitleInput.value.trim();
-                        resourceToEdit.description = resourceDescriptionInput.value.trim();
-                        let url = resourceUrlInput.value.trim();
-                        
-                        if (!url.startsWith('http') && !url.startsWith('file://')) {
-                            url = `file://${url}`;
-                        }
-                        
-                        resourceToEdit.url = url;
-                        resourceToEdit.source = url.startsWith('file://') ? 'local' : 'online';
-                        
-                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
-                        
-                        // Reset form
-                        resourceTitleInput.value = '';
-                        resourceDescriptionInput.value = '';
-                        resourceUrlInput.value = '';
-                        addResourceBtn.textContent = 'Add Resource';
-                        
-                        // Remove this event listener
-                        addResourceBtn.removeEventListener('click', updateHandler);
-                        
-                        // Add back the original event listener
-                        renderResources();
-                    };
-                    
-                    // Remove original click event temporarily
-                    addResourceBtn.removeEventListener('click', addResourceBtn.clickHandler);
-                    
-                    // Add the update handler
-                    addResourceBtn.addEventListener('click', updateHandler);
-                }
-            });
-            
-            // Drag and drop functionality
+        }
+
+        // Save rating from modal
+        function saveRating() {
+            if (!currentResourceForModal) return;
+
+            // Get selected rating
+            const filledStars = document.querySelectorAll('#rating-stars-modal .star.filled').length;
+            const ratingNotes = document.getElementById('rating-notes').value;
+
+            // Update resource
+            const resourceIndex = resources.findIndex(r => r.id === currentResourceForModal.id);
+            if (resourceIndex !== -1) {
+                resources[resourceIndex].rating = filledStars;
+                resources[resourceIndex].ratingNotes = ratingNotes;
+
+                saveResources();
+                updateStats();
+                loadResources();
+            }
+
+            // Close modal
+            ratingModal.style.display = 'none';
+
+            // Reset current resource
+            currentResourceForModal = null;
+        }
+
+        // Handle resource preview on hover
+        function handleResourceHover(e) {
+            const resourceCard = e.target.closest('.resource-card');
+
+            // Hide preview if not hovering over a resource card
+            if (!resourceCard) {
+                resourcePreview.style.display = 'none';
+                return;
+            }
+
+            // Only show preview for YouTube resources
+            const previewData = resourceCard.querySelector('.resource-preview-data');
+            if (!previewData) return;
+
+            const thumbnailUrl = previewData.dataset.thumbnail;
+            if (!thumbnailUrl) {
+                resourcePreview.style.display = 'none';
+                return;
+            }
+
+            // Position and show preview
+            resourcePreview.querySelector('img').src = thumbnailUrl;
+            resourcePreview.style.left = `${e.pageX + 10}px`;
+            resourcePreview.style.top = `${e.pageY + 10}px`;
+            resourcePreview.style.display = 'block';
+        }
+
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
             dropzone.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropzone.classList.add('active');
             });
-            
+
             dropzone.addEventListener('dragleave', () => {
                 dropzone.classList.remove('active');
             });
-            
+
             dropzone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropzone.classList.remove('active');
-                
-                // Process the dropped items
+
                 if (e.dataTransfer.items) {
                     // Use DataTransferItemList interface
                     for (let i = 0; i < e.dataTransfer.items.length; i++) {
                         if (e.dataTransfer.items[i].kind === 'file') {
                             const file = e.dataTransfer.items[i].getAsFile();
-                            addDroppedResource(file);
+                            handleDroppedFile(file);
                         } else if (e.dataTransfer.items[i].kind === 'string') {
                             // Handle dropped URLs
                             e.dataTransfer.items[i].getAsString((url) => {
-                                // Check if it's a valid URL
-                                if (url.startsWith('http')) {
-                                    // Pre-fill the form with the URL
+                                if (isValidUrl(url)) {
                                     resourceUrlInput.value = url;
-                                    resourceTitleInput.focus();
+                                    fetchUrlTitle(url).then(title => {
+                                        if (title) resourceTitleInput.value = title;
+                                        resourceTitleInput.focus();
+                                    });
                                 }
                             });
                         }
@@ -815,160 +2031,192 @@
                 } else {
                     // Use DataTransfer interface
                     for (let i = 0; i < e.dataTransfer.files.length; i++) {
-                        addDroppedResource(e.dataTransfer.files[i]);
+                        handleDroppedFile(e.dataTransfer.files[i]);
                     }
                 }
             });
         }
-        
-        // Handle dropped files
-        function addDroppedResource(file) {
-            // Create a file URL
-            const fileUrl = URL.createObjectURL(file);
-            
-            // Pre-fill the form
+
+        // Handle a dropped file
+        function handleDroppedFile(file) {
             resourceTitleInput.value = file.name;
             resourceUrlInput.value = `file://${file.path || file.name}`;
             resourceDescriptionInput.focus();
         }
-        
-        // Save data to localStorage
-        function saveData() {
+
+        // Check if string is a valid URL
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        // Try to fetch title from a URL
+        async function fetchUrlTitle(url) {
+            try {
+                // For YouTube URLs, try to get the video title
+                const youtubeId = getYouTubeId(url);
+                if (youtubeId) {
+                    // Can't actually get YouTube title from client-side code without API key
+                    // This is a placeholder for a feature that would need a backend
+                    return '';
+                }
+
+                // For other URLs, this would typically need a server-side proxy 
+                // due to CORS restrictions
+                return '';
+            } catch (error) {
+                console.error('Error fetching URL title:', error);
+                return '';
+            }
+        }
+
+        // Show export dialog
+        function showExportDialog() {
+            const exportData = {
+                categories,
+                resources,
+                scheduledResources: JSON.parse(localStorage.getItem('pdh-scheduled-resources')) || []
+            };
+
+            document.getElementById('import-export-modal-title').textContent = 'Export Data';
+            document.getElementById('import-export-data').value = JSON.stringify(exportData, null, 2);
+
+            // Set up buttons
+            const buttonsContainer = document.getElementById('import-export-buttons');
+            buttonsContainer.innerHTML = `
+        <button id="copy-export-data">Copy to Clipboard</button>
+        <button id="download-export-data">Download as JSON</button>
+        <button id="close-export-dialog" style="background-color: #ccc;">Close</button>
+    `;
+
+            // Add event listeners
+            document.getElementById('copy-export-data').addEventListener('click', () => {
+                const exportText = document.getElementById('import-export-data');
+                exportText.select();
+                document.execCommand('copy');
+                alert('Copied to clipboard!');
+            });
+
+            document.getElementById('download-export-data').addEventListener('click', () => {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "personal_development_hub_data.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            });
+
+            document.getElementById('close-export-dialog').addEventListener('click', () => {
+                importExportModal.style.display = 'none';
+            });
+
+            // Show modal
+            importExportModal.style.display = 'flex';
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalViews = resources.reduce((sum, resource) => sum + resource.viewCount, 0);
+            totalViewsElement.textContent = totalViews;
+
+            const ratedResources = resources.filter(r => r.rating > 0);
+            const avgRating = ratedResources.length > 0 ?
+                (ratedResources.reduce((sum, r) => sum + r.rating, 0) / ratedResources.length).toFixed(1) :
+                '0.0';
+            avgRatingElement.textContent = avgRating;
+
+            const categoryViews = {};
+            resources.forEach(resource => {
+                if (resource.viewCount > 0) {
+                    categoryViews[resource.category] = (categoryViews[resource.category] || 0) + resource.viewCount;
+                }
+            });
+            let topCategory = '-';
+            let maxViews = 0;
+            for (const [category, views] of Object.entries(categoryViews)) {
+                if (views > maxViews) {
+                    topCategory = category;
+                    maxViews = views;
+                }
+            }
+            topCategoryElement.textContent = topCategory;
+
+            resourcesCountElement.textContent = resources.length;
+        }
+
+        // Save categories to localStorage
+        function saveCategories() {
             localStorage.setItem('pdh-categories', JSON.stringify(categories));
+        }
+
+        // Save resources to localStorage
+        function saveResources() {
             localStorage.setItem('pdh-resources', JSON.stringify(resources));
         }
-        
-        // Initialize on page load
-        window.addEventListener('load', init);
-    </script>
 
-<!-- Add this modal HTML somewhere near the bottom of your <body> -->
-    <div id="schedule-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
-        <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; width: 100%; position: relative;">
-          <h2>Schedule Resource</h2>
-          <div class="form-group">
-            <label for="schedule-date">Date</label>
-            <input type="date" id="schedule-date">
-          </div>
-          <div class="form-group">
-            <label for="schedule-note">Note (optional)</label>
-            <textarea id="schedule-note" placeholder="Write a note..."></textarea>
-          </div>
-          <div class="button-group">
-            <button id="save-schedule">Save</button>
-            <button id="cancel-schedule" style="background-color: #ccc;">Cancel</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Somewhere in your HTML, below or as a sidebar -->
-      <div style="margin-top: 30px;">
-        <h2>📅 Scheduled for Today</h2>
-        <ul id="today-schedule-list" style="padding-left: 20px;"></ul>
-      </div>
-      
-      <script>
-      let scheduledItems = JSON.parse(localStorage.getItem('pdh-schedule')) || [];
-      let schedulingResourceId = null;
-      
-      // Helper to render today's items
-      function renderTodaySchedule() {
-        const today = new Date().toISOString().split('T')[0];
-        const list = document.getElementById('today-schedule-list');
-        list.innerHTML = '';
-      
-        const todayItems = scheduledItems.filter(item => item.date === today);
-      
-        todayItems.forEach(item => {
-          const resource = resources.find(r => r.id === item.resourceId);
-          if (resource) {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${resource.title}</strong><br><em>${item.note || ''}</em>`;
-            list.appendChild(li);
-          }
-        });
-      }
-      
-      // Open modal
-      function openScheduleModal(resourceId) {
-        schedulingResourceId = resourceId;
-        document.getElementById('schedule-modal').style.display = 'flex';
-        document.getElementById('schedule-date').value = new Date().toISOString().split('T')[0];
-        document.getElementById('schedule-note').value = '';
-      }
-      
-      // Close modal
-      function closeScheduleModal() {
-        document.getElementById('schedule-modal').style.display = 'none';
-        schedulingResourceId = null;
-      }
-      
-      // Save schedule
-      document.getElementById('save-schedule').addEventListener('click', () => {
-        const date = document.getElementById('schedule-date').value;
-        const note = document.getElementById('schedule-note').value.trim();
-        if (!schedulingResourceId || !date) return;
-      
-        scheduledItems.push({
-          resourceId: schedulingResourceId,
-          date,
-          note
-        });
-        localStorage.setItem('pdh-schedule', JSON.stringify(scheduledItems));
-        closeScheduleModal();
-        renderTodaySchedule();
-      });
-      
-      // Cancel schedule
-      document.getElementById('cancel-schedule').addEventListener('click', closeScheduleModal);
-      
-      // Modify renderResources to add "Schedule" button
-      function renderResources(searchQuery = '') {
-        resourceList.innerHTML = '';
-        let filteredResources = resources;
-      
-        if (currentCategory !== 'All') {
-          filteredResources = filteredResources.filter(resource => resource.category === currentCategory);
+        // Initialize the application when the page loads
+        window.addEventListener('load', init);
+
+        // Show Import Dialog
+        function showImportDialog() {
+            document.getElementById('import-export-modal-title').textContent = 'Import Data';
+            document.getElementById('import-export-data').value = ''; // Clear the textarea for input
+
+            // Set up buttons for the import context
+            const buttonsContainer = document.getElementById('import-export-buttons');
+            buttonsContainer.innerHTML = `
+        <button id="import-data-btn">Import Data</button>
+        <button id="close-import-dialog" style="background-color: #ccc;">Close</button>
+    `;
+
+            // Add event listener for import button
+            document.getElementById('import-data-btn').addEventListener('click', () => {
+                try {
+                    const importData = JSON.parse(document.getElementById('import-export-data').value);
+                    // Assuming the imported data has properties: categories, resources, scheduledResources
+                    if (importData.categories && importData.resources) {
+                        categories = importData.categories;
+                        resources = importData.resources;
+                        localStorage.setItem('pdh-categories', JSON.stringify(categories));
+                        localStorage.setItem('pdh-resources', JSON.stringify(resources));
+                        if (importData.scheduledResources) {
+                            localStorage.setItem('pdh-scheduled-resources', JSON.stringify(importData.scheduledResources));
+                        }
+                        loadCategories();
+                        loadResources();
+                        updateStats();
+                        alert('Data imported successfully!');
+                        importExportModal.style.display = 'none';
+                    } else {
+                        alert('Invalid data structure. Please check your JSON.');
+                    }
+                } catch (error) {
+                    alert('Invalid JSON data. Please check the format and try again.');
+                    console.error('Import error:', error);
+                }
+            });
+
+            // Add event listener for close import dialog
+            document.getElementById('close-import-dialog').addEventListener('click', () => {
+                importExportModal.style.display = 'none';
+            });
+
+            // Show the modal
+            importExportModal.style.display = 'flex';
         }
-      
-        if (searchQuery) {
-          const query = searchQuery.toLowerCase();
-          filteredResources = filteredResources.filter(resource =>
-            resource.title.toLowerCase().includes(query) ||
-            resource.description.toLowerCase().includes(query)
-          );
+
+        // Clear the Add Resource form inputs
+        function clearResourceForm() {
+            resourceTitleInput.value = '';
+            resourceDescriptionInput.value = '';
+            resourceUrlInput.value = '';
+            // Optionally reset to default category, e.g., "All Resources"
+            resourceCategorySelect.value = 'All Resources';
         }
-      
-        if (filteredResources.length === 0) {
-          resourceList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #888;">No resources found. Add a new resource or try a different search.</p>';
-          return;
-        }
-      
-        filteredResources.forEach(resource => {
-          const isLocalFile = resource.url.startsWith('file://') || !resource.url.startsWith('http');
-          const sourceType = isLocalFile ? 'Local File' : 'Online Resource';
-      
-          resourceList.innerHTML += `
-            <div class="resource-card" data-id="${resource.id}">
-              <h3>${resource.title}</h3>
-              <p>${resource.description}</p>
-              <a href="${resource.url}" target="_blank">Open Resource</a>
-              <div class="resource-source">${sourceType} • Category: ${resource.category}</div>
-              <div class="edit-buttons">
-                <button class="edit-button" data-id="${resource.id}">Edit</button>
-                <button class="delete-button" data-id="${resource.id}">Delete</button>
-                <button onclick="openScheduleModal(${resource.id})">Schedule</button>
-              </div>
-            </div>
-          `;
-        });
-      }
-      
-      // On load, render today's scheduled items too
-      window.addEventListener('load', () => {
-        renderTodaySchedule();
-      });
-      </script>
-      
-</body>
-</html>
+
+    </script>

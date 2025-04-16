@@ -852,6 +852,8 @@
     </div>
 
     <script>
+        console.log("✅ Soulbench JavaScript loaded!");
+
         // Store data in localStorage with expanded properties
         let categories = JSON.parse(localStorage.getItem('pdh-categories')) || [
             'Meditation',
@@ -868,7 +870,7 @@
 
         // Initialize resources with additional properties for new features
         let resources = JSON.parse(localStorage.getItem('pdh-resources')) || [
-        {
+            {
                 id: 1,
                 title: 'Guided Meditation for Beginners',
                 description: 'A 10-minute guided meditation for beginners to practice mindfulness.',
@@ -1056,7 +1058,7 @@
                 id: 24,
                 title: 'Master Co - Introduction to Pranic Healing',
                 description: 'Learn the basics of Pranic Healing and how to use it for self-healing.',
-				url: 'www.youtube.com/watch?v=jHA1wqnxTFE',
+                url: 'www.youtube.com/watch?v=jHA1wqnxTFE',
                 category: 'Energy',
                 source: 'online'
             },
@@ -1064,7 +1066,7 @@
                 id: 25,
                 title: 'Master Co - Give Me 10 Minutes, And Your Energy Will Be Transformed',
                 description: 'Cleanse and align the body\'s energy system, shift energy frequencies through color visualization and enhance receptivity.',
-				url: 'https://www.youtube.com/watch?v=iL5y3CwtN5E',
+                url: 'https://www.youtube.com/watch?v=iL5y3CwtN5E',
                 category: 'Energy',
                 source: 'online'
             },
@@ -1092,14 +1094,14 @@
                 category: 'Energy',
                 source: 'online'
             },
-			{
+            {
                 id: 29,
                 title: 'Dr. Paul H. Smith - How to do a Simple Remote Viewing',
                 description: 'Remote Viewing Introduction',
                 url: 'https://www.youtube.com/watch?v=BIE2BClEok0',
                 category: 'Energy',
                 source: 'online'
-			},
+            },
             {
                 id: 30,
                 title: 'Misc - Mindvalley Meditations (Playlist)',
@@ -1116,15 +1118,15 @@
                 category: 'Meditation',
                 source: 'online'
             },
-			{
+            {
                 id: 32,
                 title: 'Michael Sealey - Meditations (Playlist)',
                 description: 'Different Meditations for different purposes',
                 url: 'https://www.youtube.com/watch?v=DHwgBCx0uNs&list=PLO9OtUmChpP_I3ALG2Zl_LcR53um6zSyu',
                 category: 'Meditation',
                 source: 'online'
-			},
-		];
+            },
+        ];
 
         // Global state variables
         let currentCategory = 'All Resources';
@@ -1271,6 +1273,23 @@
                 if (e.target === importExportModal) importExportModal.style.display = 'none';
             });
         }
+
+        resourceList.addEventListener('click', function (e) {
+            const target = e.target;
+            const id = parseInt(target.dataset.id);
+            if (!id) return;
+
+            // Edit resource
+            if (target.classList.contains('edit-button')) {
+                const resource = resources.find(r => r.id === id);
+                if (resource) editResource(resource);
+            }
+
+            // Delete resource
+            if (target.classList.contains('delete-button')) {
+                deleteResource(id);
+            }
+        });
 
         // Toggle between light and dark theme
         function toggleTheme() {
@@ -1574,6 +1593,14 @@
             }
         }
 
+        function detectResourceSource(url) {
+            if (!url) return 'unknown';
+            if (url.includes('youtube.com')) return 'youtube';
+            if (url.includes('vimeo.com')) return 'vimeo';
+            if (url.startsWith('http')) return 'link';
+            return 'file';
+        }
+
         // Handle resource actions (visit, edit, delete, pin)
         function handleResourceAction(e) {
             const target = e.target;
@@ -1850,6 +1877,14 @@
             currentResourceForModal = null;
         }
 
+        // ----- NEW: get local date string in the same format as <input type="date"> -----
+        function getLocalYMD(d = new Date()) {
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+        }
+        const today = getLocalYMD();          // ex. "2025-04-17"
+        // -------------------------------------------------------------------------------
+
         // Check for today's scheduled resources
         function checkTodaySchedule() {
             const scheduledResources = JSON.parse(localStorage.getItem('pdh-scheduled-resources')) || [];
@@ -1857,7 +1892,9 @@
             todayScheduleList.innerHTML = '';
 
             // Get today's date in YYYY-MM-DD format
-            const today = new Date().toISOString().split('T')[0];
+            const today = getLocalYMD(); //new Date().toISOString().split('T')[0];  
+            
+            //const today = new Date().toISOString().split('T')[0];
 
             // Filter scheduled resources for today
             const todayResources = scheduledResources.filter(item => item.date === today);

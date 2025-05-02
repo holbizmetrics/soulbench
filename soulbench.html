@@ -1058,7 +1058,7 @@
                 id: 24,
                 title: 'Master Co - Introduction to Pranic Healing',
                 description: 'Learn the basics of Pranic Healing and how to use it for self-healing.',
-                url: 'www.youtube.com/watch?v=jHA1wqnxTFE',
+                url: 'https://www.youtube.com/watch?v=jHA1wqnxTFE',
                 category: 'Energy',
                 source: 'online'
             },
@@ -1126,6 +1126,22 @@
                 category: 'Meditation',
                 source: 'online'
             },
+			{
+				id: 33,
+				title: 'This ONE Shift Magnetizes Your Manifestation to You (Includes Guided Meditation)',
+				description: 'Manifestation: Merge your current version with your future version.',
+				url: 'https://www.youtube.com/watch?v=tf3w3EGSgpk',
+				category: 'Meditation',
+				source: 'online'
+			},
+			{
+				id: 34,
+				title: 'Temporal Integration Meditation',
+				description: 'A guided visualization that unites your past, present',
+				url: 'https://stevepavlina.com/blog/2005/08/my-favorite-meditation/',
+				category: 'Meditation',
+				source: 'online'
+			},
         ];
 
         // Global state variables
@@ -1427,6 +1443,8 @@
                 `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` :
                 '';
 
+			const fallbackUrl = `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(resource.url)}`;
+			const displayThumbnail = thumbnailUrl || fallbackUrl;
             // Format the last viewed date if available
             const lastViewedText = resource.lastViewed ?
                 `Last viewed: ${new Date(resource.lastViewed).toLocaleDateString()}` :
@@ -1462,7 +1480,7 @@
             <button class="schedule-button" data-id="${resource.id}">Schedule</button>
         </div>
         
-        <div class="resource-preview-data" style="display:none;" data-thumbnail="${thumbnailUrl}"></div>
+        <div class="resource-preview-data" style="display:none;" data-thumbnail="${displayThumbnail}"></div>
     `;
 
             return card;
@@ -1893,7 +1911,7 @@
 
             // Get today's date in YYYY-MM-DD format
             const today = getLocalYMD(); //new Date().toISOString().split('T')[0];  
-            
+
             //const today = new Date().toISOString().split('T')[0];
 
             // Filter scheduled resources for today
@@ -2030,21 +2048,18 @@
                 return;
             }
 
-            // Only show preview for YouTube resources
             const previewData = resourceCard.querySelector('.resource-preview-data');
-            if (!previewData) return;
 
-            const thumbnailUrl = previewData.dataset.thumbnail;
-            if (!thumbnailUrl) {
-                resourcePreview.style.display = 'none';
-                return;
-            }
+			const thumbnailUrl = previewData?.dataset.thumbnail;
+			if (thumbnailUrl) {
 
-            // Position and show preview
             resourcePreview.querySelector('img').src = thumbnailUrl;
             resourcePreview.style.left = `${e.pageX + 10}px`;
             resourcePreview.style.top = `${e.pageY + 10}px`;
             resourcePreview.style.display = 'block';
+			} else {
+				resourcePreview.style.display = 'none';
+			}
         }
 
         // Setup drag and drop functionality
